@@ -1,0 +1,63 @@
+# Archivos específicos de documentación del taller en la raíz
+*.pdf
+*.txt
+
+# Dependencias de Node
+node_modules/
+**/node_modules/
+
+# Entornos y credenciales
+.env
+**/ .env
+/generated/prisma
+# --- Entorno ---
+.env.local
+
+# Archivos de compilación y distribución
+dist/
+build/
+**/dist/
+**/build/
+
+# Logs de npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema operativo
+.vscode/
+.DS_Store
+*.log
+Thumbs.db
+
+# --- Prisma ---
+# Normalmente no se sube la carpeta de cliente generada, 
+# ya que se regenera al ejecutar npm install
+/node_modules/.prisma/
+
+
+/generated/prisma
+
+# Ignorar archivos del editor y agentes locales
+.agents/
+**/ .agents/
+.windsurf/
+**/ .windsurf/
+# Ignorar carpetas ocultas de editores o asistentes de IA
+.*
+!.gitignore
+
+.claude/
+**/ .claude/
+.agents/
+**/ .agents/
+.windsurf/
+**/ .windsurf/
+
+# Archivos de herramientas locales
+skills-lock.json
+**/skills-lock.json
+
+# Archivos generados automáticamente por Prisma
+/Backend/src/generated/
+**/src/generated/
