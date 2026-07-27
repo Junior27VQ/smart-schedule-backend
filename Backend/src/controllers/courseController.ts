@@ -46,7 +46,7 @@ export const createCourse = async (req: Request, res: Response) => {
 };
 
 // Leer Todas las materias GET:
-export const readMaterias = async (req: Request, res: Response) => {
+export const readCourses = async (req: Request, res: Response) => {
     try {
         const materias = await prisma.courses.findMany({
             select: {
@@ -69,7 +69,7 @@ export const readMaterias = async (req: Request, res: Response) => {
 }
 
 // Leer materias por id GET:
-export const readMateria = async (req: Request, res: Response) => {
+export const readCourse = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
         const course = await prisma.courses.findUnique({
@@ -87,7 +87,7 @@ export const readMateria = async (req: Request, res: Response) => {
 }
 
 // Actualizar materias por id PUT/PATCH:
-export const updateMateria = async (req: Request, res: Response) => {
+export const updateCourse = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
         const { name, day, start_time, end_time, modality, difficulty, credits } = req.body;
@@ -113,7 +113,7 @@ export const updateMateria = async (req: Request, res: Response) => {
 }
 
 // Eliminar materias por id DELETE:
-export const deleteMateria = async (req: Request, res: Response) => {
+export const deleteCourse = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
         const materia = await prisma.courses.delete({
