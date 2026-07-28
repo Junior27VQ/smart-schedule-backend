@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Usar rutas de materias
-app.use('/courses', courseRoutes);
+app.use('/api', courseRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'API del Generador de Horarios Activa 🚀' });

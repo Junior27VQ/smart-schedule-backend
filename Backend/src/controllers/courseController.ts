@@ -8,7 +8,11 @@ export const getCourses = async (req: Request, res: Response) => {
       include: {
         prerequisites_prerequisites_course_idTocourses: {
           include: {
-            courses_prerequisites_prerequisite_course_idTocourses: true
+            courses_prerequisites_prerequisite_course_idTocourses: {
+                select: {
+                    name: true
+                }
+            }
           }
         }
       }
