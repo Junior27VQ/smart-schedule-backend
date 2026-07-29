@@ -1,0 +1,75 @@
+.courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Contenedor principal en filas verticales */
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Estilo de cada tarjeta convertida en fila */
+.course-row-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.course-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.course-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: shrink;
+}
+
+/* Responsive para celulares: los botones pasan abajo de la info */
+@media (max-width: 768px) {
+  .course-row-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .course-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Estilos del Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+}

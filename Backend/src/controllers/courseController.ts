@@ -133,3 +133,51 @@ export const deleteCourse = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Error al eliminar la materia" });
     }
 }
+
+export const prereqisito = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params; // ID de la materia actual
+        const { prerequisiteIds } = req.body; // Array de IDs de las materias que son prerrequisito
+        const courseId = Number(id);
+
+        // 1. Validar que prerequisiteIds sea un arreglo
+        if (!Array.isArray(prerequisiteIds)) {
+            return res.status(400).json({ error: 'El formato de prerequisiteIds debe ser un arreglo.' });
+        }
+
+        // 2. Eliminar los prerrequisitos anteriores de esta materia para evitar duplicados
+        await prisma.prerequisites.deleteMany({
+            where: { course_id: courseId }
+        });
+
+        // 3. Si se seleccionaron nuevos prerrequisitos, los insertamos en la tabla intermedia
+        if (prerequisiteIds.length > 0) {
+            const dataToInsert = prerequisiteIds.map(predId => ({
+                course_id: courseId,
+                prerequisite_course_id: Number(predId)
+            }));
+
+            await prisma.prerequisites.createMany({
+                data: dataToInsert,
+                skipDuplicates: true
+            });
+        }
+
+        // 4. Consultar el resultado actualizado para devolverlo al cliente
+        const updatedCourse = await prisma.courses.findUnique({
+            where: { id: courseId },
+            include: {
+                prerequisites_prerequisites_course_idTocourses: {
+                    include: {
+                        courses_prerequisites_prerequisite_course_idTocourses: true
+                    }
+                }
+            }
+        });
+
+        res.json(updatedCourse);
+    } catch (error) {
+        console.error("Error al asignar prerrequisitos:", error);
+        res.status(500).json({ error: 'Error al asignar prerrequisitos' });
+    }
+}

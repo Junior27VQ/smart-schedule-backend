@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCourse, deleteCourse, getCourses, readCourse, updateCourse } from "../controllers/courseController.js";
+import { createCourse, deleteCourse, getCourses, prereqisito, readCourse, updateCourse } from "../controllers/courseController.js";
 import { generateSchedule } from "../controllers/scheduleController.js";
 
 const router = Router();
@@ -9,6 +9,7 @@ router.get('/courses', getCourses);
 router.get('/courses/:id', readCourse);
 router.put('/courses/:id', updateCourse);
 router.delete('/courses/:id', deleteCourse);
+router.put('/courses/:id/prerequisites', prereqisito)
 
 //scheduleRoutes
 router.post('/course/schedule/generate', generateSchedule);
