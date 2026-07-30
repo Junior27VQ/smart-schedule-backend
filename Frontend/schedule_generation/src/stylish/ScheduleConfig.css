@@ -1,0 +1,75 @@
+.schedule-config-card {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.schedule-config-subtitle {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.schedule-config-error {
+  color: red;
+  margin-bottom: 1rem;
+  background: #fee2e2;
+  padding: 0.5rem;
+  borderRadius: 4px;
+}
+
+.schedule-config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-config-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.schedule-config-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-config-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.schedule-config-input,
+.schedule-config-select {
+  width: 100%;
+  padding: 0.4rem;
+  box-sizing: border-box;
+}
+
+.schedule-config-checkboxes {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.schedule-config-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.schedule-config-checkbox {
+  width: 16px;
+  height: 16px;
+}
+
+.schedule-config-submit {
+  margin-top: 1.2rem;
+  padding: 0.75rem;
+  cursor: pointer;
+}

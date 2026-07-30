@@ -92,7 +92,7 @@ export default function CoursesManager() {
   };
   const handleSavePrerequisites = async (courseId, prerequisiteIds) => {
     try {
-        const response = await fetch(`http://localhost:4000/api/courses/${courseId}/prerequisites`, {
+        const response = await fetch(`${API_BASE_URL}/api/courses/${courseId}/prerequisites`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prerequisiteIds })
@@ -109,26 +109,25 @@ export default function CoursesManager() {
     };
 
   return (
-    <div>
+    <div className="courses-manager-container">
       <div className="courses-header">
         <div>
           <h2>Gestión de Materias Disponibles</h2>
-          <p style={{ color: '#64748b' }}>Administra el catálogo de cursos para la generación de horarios</p>
+          <p>Administra el catálogo de cursos para la generación de horarios</p>
         </div>
         <button className="btn-primary" onClick={handleOpenCreate}>
           + Registrar Materia
         </button>
       </div>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loading && <p>Cargando materias...</p>}
+      {error && <p className="courses-error">{error}</p>}
+      {loading && <p className="courses-loading">Cargando materias...</p>}
 
       {!loading && courses.length === 0 && (
-        <p>No hay materias registradas actualmente.</p>
+        <p className="courses-empty">No hay materias registradas actualmente.</p>
       )}
 
-      
-        <div className="courses-list">
+      <div className="courses-list">
         {courses.map((course) => {
           const displayTime = (isoString) => {
             if (!isoString) return '';
@@ -148,12 +147,12 @@ export default function CoursesManager() {
           return (
             <div key={course.id} className="card course-row-card">
               <div className="course-info">
-                <h3 style={{ marginBottom: '0.3rem' }}>{course.name}</h3>
-                <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
+                <h3 className="course-title">{course.name}</h3>
+                <p className="course-details">
                   Créditos: {course.credits} | Dificultad: {course.difficulty || 'Media'} | Día: {course.day} ({displayTime(course.start_time)} - {displayTime(course.end_time)}) | Modalidad: {course.modality}
                 </p>
                 {/* Mostramos los prerrequisitos asignados */}
-                <p style={{ fontSize: '0.85rem', color: '#4f46e5', marginTop: '0.4rem', fontWeight: '500' }}>
+                <p className="course-prerequisites">
                   Prerrequisitos: {prereqNames ? prereqNames : 'Ninguno'}
                 </p>
               </div>
@@ -161,19 +160,19 @@ export default function CoursesManager() {
               <div className="course-actions">
                 <button 
                   onClick={() => handleOpenEdit(course)} 
-                  style={{ padding: '0.4rem 0.8rem', background: '#e2e8f0', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+                  className="btn-action-edit"
                 >
                   Modificar
                 </button>
                 <button 
                   onClick={() => handleAssignPrerequisites(course)} 
-                  style={{ padding: '0.4rem 0.8rem', background: '#e0e7ff', color: '#4f46e5', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+                  className="btn-action-prereq"
                 >
                   Prerrequisitos
                 </button>
                 <button 
                   onClick={() => handleDelete(course.id)} 
-                  style={{ padding: '0.4rem 0.8rem', background: '#fee2e2', color: '#991b1b', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+                  className="btn-action-delete"
                 >
                   Eliminar
                 </button>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../stylish/CourseModal.css';
 
 export default function CourseModal({ isOpen, onClose, onSave, courseToEdit }) {
   const [formData, setFormData] = useState({
@@ -78,17 +79,25 @@ export default function CourseModal({ isOpen, onClose, onSave, courseToEdit }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content card">
-        <h3>{courseToEdit ? 'Modificar Materia' : 'Registrar Nueva Materia'}</h3>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '1rem' }}>
-          <div>
-            <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Nombre de la Materia:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required style={{ width: '100%', padding: '0.4rem' }} />
+      <div className="modal-content-card card">
+        <h3 className="modal-title">{courseToEdit ? 'Modificar Materia' : 'Registrar Nueva Materia'}</h3>
+        <form onSubmit={handleSubmit} className="modal-form">
+          
+          <div className="modal-field">
+            <label className="modal-label">Nombre de la Materia:</label>
+            <input 
+              type="text" 
+              name="name" 
+              value={formData.name} 
+              onChange={handleChange} 
+              required 
+              className="modal-input" 
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Créditos (1 - 6):</label>
+          <div className="modal-row">
+            <div className="modal-field">
+              <label className="modal-label">Créditos (1 - 6):</label>
               <input 
                 type="number" 
                 name="credits" 
@@ -97,12 +106,17 @@ export default function CourseModal({ isOpen, onClose, onSave, courseToEdit }) {
                 value={formData.credits} 
                 onChange={handleChange} 
                 required 
-                style={{ width: '100%', padding: '0.4rem' }} 
+                className="modal-input" 
               />
             </div>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Dificultad:</label>
-              <select name="difficulty" value={formData.dificulty} onChange={handleChange} style={{ width: '100%', padding: '0.4rem' }}>
+            <div className="modal-field">
+              <label className="modal-label">Dificultad:</label>
+              <select 
+                name="difficulty" 
+                value={formData.difficulty} 
+                onChange={handleChange} 
+                className="modal-select"
+              >
                 <option value="Baja">Baja</option>
                 <option value="Media">Media</option>
                 <option value="Alta">Alta</option>
@@ -110,21 +124,40 @@ export default function CourseModal({ isOpen, onClose, onSave, courseToEdit }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Hora Inicio:</label>
-              <input type="time" name="start_time" value={formData.start_time} onChange={handleChange} required style={{ width: '100%', padding: '0.4rem' }} />
+          <div className="modal-row">
+            <div className="modal-field">
+              <label className="modal-label">Hora Inicio:</label>
+              <input 
+                type="time" 
+                name="start_time" 
+                value={formData.start_time} 
+                onChange={handleChange} 
+                required 
+                className="modal-input" 
+              />
             </div>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Hora Fin:</label>
-              <input type="time" name="end_time" value={formData.end_time} onChange={handleChange} required style={{ width: '100%', padding: '0.4rem' }} />
+            <div className="modal-field">
+              <label className="modal-label">Hora Fin:</label>
+              <input 
+                type="time" 
+                name="end_time" 
+                value={formData.end_time} 
+                onChange={handleChange} 
+                required 
+                className="modal-input" 
+              />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Día:</label>
-              <select name="day" value={formData.day} onChange={handleChange} style={{ width: '100%', padding: '0.4rem' }}>
+          <div className="modal-row">
+            <div className="modal-field">
+              <label className="modal-label">Día:</label>
+              <select 
+                name="day" 
+                value={formData.day} 
+                onChange={handleChange} 
+                className="modal-select"
+              >
                 <option value="Lunes">Lunes</option>
                 <option value="Martes">Martes</option>
                 <option value="Miércoles">Miércoles</option>
@@ -133,17 +166,22 @@ export default function CourseModal({ isOpen, onClose, onSave, courseToEdit }) {
                 <option value="Sábado">Sábado</option>
               </select>
             </div>
-            <div>
-              <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Modalidad:</label>
-              <select name="modality" value={formData.modality} onChange={handleChange} style={{ width: '100%', padding: '0.4rem' }}>
+            <div className="modal-field">
+              <label className="modal-label">Modalidad:</label>
+              <select 
+                name="modality" 
+                value={formData.modality} 
+                onChange={handleChange} 
+                className="modal-select"
+              >
                 <option value="Presencial">Presencial</option>
                 <option value="Virtual">Virtual</option>
               </select>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
-            <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', background: '#cbd5e1', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Cancelar</button>
+          <div className="modal-actions">
+            <button type="button" onClick={onClose} className="btn-modal-cancel">Cancelar</button>
             <button type="submit" className="btn-primary">{courseToEdit ? 'Actualizar' : 'Guardar'}</button>
           </div>
         </form>

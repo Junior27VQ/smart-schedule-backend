@@ -8,7 +8,7 @@ import {
   validateDifficultCourses, 
   validatePrerequisites, 
   validateTimeConflicts 
-} from '../helpers/schedulehelper.js';
+} from '../helpers/scheduleHelper.js';
 
 interface ScheduleOptions {
   courseIds?: number[];
