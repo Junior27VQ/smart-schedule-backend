@@ -81,17 +81,28 @@ export const validateAndGenerateSchedule = async (options: ScheduleOptions) => {
     } else if (avoidTimeConflicts && !validateTimeConflicts(courses)) {
       rejectionReason = "Presenta cruces o solapamientos en los horarios";
     };
+    
+    // Si pasa todas las validaciones, se registra como horario válido
+    const totalCredits = courses.reduce((sum, c) => sum + c.credits, 0);
+
     // Si hubo una razón de rechazo, lo mandamos a la lista de descartados
     if (rejectionReason) {
       rejectedSchedules.push({
         materiasAnalizadas: courses.map(c => c.name),
+        totalCreditos: totalCredits,
+        cursosDetallados: courses.map(c => ({ 
+          id: c.id, 
+          name: c.name, 
+          day: c.day, 
+          start_time: c.start_time,
+          end_time: c.end_time,
+          credits: c.credits, 
+          modality: c.modality 
+        })),
         razonDescarte: rejectionReason
       });
       continue;
     };
-
-    // Si pasa todas las validaciones, se registra como horario válido
-    const totalCredits = courses.reduce((sum, c) => sum + c.credits, 0);
 
     validSchedules.push({
       idHorario: validSchedules.length + 1,
@@ -101,6 +112,8 @@ export const validateAndGenerateSchedule = async (options: ScheduleOptions) => {
         id: c.id, 
         name: c.name, 
         day: c.day, 
+        start_time: c.start_time,
+        end_time: c.end_time,
         credits: c.credits, 
         modality: c.modality 
       }))

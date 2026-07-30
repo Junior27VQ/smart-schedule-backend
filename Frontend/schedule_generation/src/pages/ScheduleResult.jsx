@@ -19,6 +19,8 @@ export default function ScheduleResult() {
     );
   }
 
+  const hendleViewDetail = (datHor) => {navigate('/schedule-detail', {state: {datHor} })}
+
   // Extraemos las propiedades exactas de tu estructura de backend
   const { message, estadisticas, horariosValidos = [], horariosDescartados = [] } = responseData;
 
@@ -82,9 +84,13 @@ export default function ScheduleResult() {
                 <div key={idx} className="schedule-item-valid">
                   <strong>Opción de Horario Válido #{idx + 1}</strong>
                   <div>
-                    <pre>
-                      {JSON.stringify(schedule, null, 2)}
+                    <pre> <strong>Materias en conjunto:</strong>
+                      {schedule.materiasComoConjunto ? schedule.materiasComoConjunto.join(', ') : 'N/A'}
                     </pre>
+                    <button className='btn-valid-detail'
+                        onClick={() => hendleViewDetail(schedule)} >
+                        Ver Detalle del Horario
+                    </button>
                   </div>
                 </div>
               ))}
@@ -107,9 +113,13 @@ export default function ScheduleResult() {
                 <div key={idx} className="schedule-item-discarded">
                   <strong>Descartado #{idx + 1}</strong>
                   <div>
-                    <pre>
-                      {JSON.stringify(discarded, null, 2)}
+                    <pre> <strong>Materias en conjunto:</strong>
+                      {discarded.materiasAnalizadas ? discarded.materiasAnalizadas.join(', ') : 'N/A'}
                     </pre>
+                    <button className='btn-des-detail'
+                        onClick={() => hendleViewDetail(discarded)} >
+                        Ver Detalle del Horario
+                    </button>
                   </div>
                 </div>
               ))}
