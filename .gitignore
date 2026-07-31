@@ -1,6 +1,5 @@
 # Archivos específicos de documentación del taller en la raíz
 *.pdf
-*.txt
 
 # Dependencias de Node
 node_modules/
