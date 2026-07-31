@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../stylish/ScheduleDetail.css';
+import MathConceptsPanel from '../components/MathConceptsPanel';
 
 export default function ScheduleDetail() {
   const location = useLocation();
@@ -26,15 +27,12 @@ export default function ScheduleDetail() {
   const formatTime = (timeString) => {
     if (!timeString) return '';
     try {
-      // Si incluye una "T", es un formato de fecha ISO (ej: 1970-01-01T08:00:00.000Z)
       if (timeString.includes('T')) {
         const date = new Date(timeString);
-        // Usamos UTC para evitar desfases de zona horaria con la época Unix (1970)
         const hours = String(date.getUTCHours()).padStart(2, '0');
         const minutes = String(date.getUTCMinutes()).padStart(2, '0');
         return `${hours}:${minutes}`;
       }
-      // Si ya viene en formato corto (ej: "08:00:00" o "08:00"), cortamos los primeros 5 caracteres
       return timeString.substring(0, 5);
     } catch {
       return timeString;
@@ -79,8 +77,30 @@ export default function ScheduleDetail() {
     });
   }
 
+  // Extracción dinámica de contadores válidos y descartados desde el objeto o props globales
+  const totalMaterias = selectedSchedule.totalMaterias || 8;
+  const materiasPorHorario = coursesList.length || 3;
+  //const combinacionesTotales = selectedSchedule.totalCombinaciones || selectedSchedule.combinacionesPosibles || 56;
+
+  const validasCount = selectedSchedule.totalValidos ?? 1;
+  const descartadasCount = selectedSchedule.totalDescartados ?? 0;
+  const combinacionesTotales = (validasCount + descartadasCount);
+
+  // Lógica proposicional descriptiva para el panel matemático
+  const estadoLogicoTexto = razonGlobalDescarte 
+    ? "Rechazado por evaluación de restricciones (¬P ∨ ¬Q)" 
+    : "Aprobado bajo conjunción válida (P ∧ Q)";
+
   return (
     <div className="schedule-detail-container">
+        <MathConceptsPanel
+            totalMaterias={totalMaterias}
+            materiasPorHorario={materiasPorHorario}
+            combinacionesTotales={combinacionesTotales}
+            validasCount={validasCount}
+            descartadasCount={descartadasCount}
+            reglaLogica={estadoLogicoTexto}
+        />
       <div className="schedule-detail-header">
         <div>
           <h2>Detalle del Horario #{selectedSchedule.idHorario || 'Óptimo'}</h2>

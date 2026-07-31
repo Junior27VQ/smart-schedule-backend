@@ -23,6 +23,7 @@ export default function ScheduleResult() {
 
   // Extraemos las propiedades exactas de tu estructura de backend
   const { message, estadisticas, horariosValidos = [], horariosDescartados = [] } = responseData;
+  const materiasDisponibles = estadisticas.materiasDisponibles;
 
   return (
     <div className="schedule-result-container">
@@ -88,7 +89,10 @@ export default function ScheduleResult() {
                       {schedule.materiasComoConjunto ? schedule.materiasComoConjunto.join(', ') : 'N/A'}
                     </pre>
                     <button className='btn-valid-detail'
-                        onClick={() => hendleViewDetail(schedule)} >
+                        onClick={() => hendleViewDetail({...schedule, 
+                                                        totalValidos: horariosValidos.length,
+                                                        totalDescartados: horariosDescartados.length,
+                                                        totalMaterias: materiasDisponibles})} >
                         Ver Detalle del Horario
                     </button>
                   </div>
@@ -117,7 +121,10 @@ export default function ScheduleResult() {
                       {discarded.materiasAnalizadas ? discarded.materiasAnalizadas.join(', ') : 'N/A'}
                     </pre>
                     <button className='btn-des-detail'
-                        onClick={() => hendleViewDetail(discarded)} >
+                        onClick={() => hendleViewDetail({...discarded, 
+                                                        totalValidos: horariosValidos.length,
+                                                        totalDescartados: horariosDescartados.length,
+                                                        totalMaterias: materiasDisponibles})} >
                         Ver Detalle del Horario
                     </button>
                   </div>

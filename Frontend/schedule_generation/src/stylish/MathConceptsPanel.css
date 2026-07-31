@@ -1,0 +1,58 @@
+.math-panel {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #0284c7;
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+
+.math-panel-title {
+  margin: 0 0 0.8rem 0;
+  color: #0f172a;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.math-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.math-card {
+  background: #ffffff;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.math-card-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.math-card-value {
+  font-size: 0.9rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.math-formula {
+  font-family: monospace;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #4f46e5;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-top: 2px;
+}
