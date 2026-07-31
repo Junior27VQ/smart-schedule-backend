@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { API_BASE_URL } from '../config/apiConfig';
 import { useNavigate } from 'react-router-dom';
 import '../stylish/ScheduleConfig.css';
@@ -6,15 +6,31 @@ import '../stylish/ScheduleConfig.css';
 export default function ScheduleConfig() {
   const navigate = useNavigate();
 
+  const [materiasDisponibles, setMateriasDisponibles] = useState([]);
   const [configData, setConfigData] = useState({
     numberOfCourses: 3,
     maximumCredits: 12,
     maximumDifficultCourses: 2,
-    requiredCourses: 'Programación', // Lo manejamos temporalmente como texto separado por comas
+    requiredCourses: [],
     requiredModality: 'Cualquiera',
     validatePrerequisites: true,
     avoidTimeConflicts: true
   });
+  
+  const fetchCourses = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/courses`);
+          if (!response.ok) throw new Error('No se pudo obtener la lista de materias.');
+          const data = await response.json();
+          setMateriasDisponibles(data);
+        } catch (err) {
+          setError(err.message);
+        } 
+      };
+
+  useEffect(()=>{
+    fetchCourses();
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,6 +40,23 @@ export default function ScheduleConfig() {
     setConfigData({
       ...configData,
       [name]: type === 'checkbox' ? checked : value
+    });
+  };
+  // Manejador específico para las casillas de verificación de materias obligatorias
+  const handleCheckboxChange = (nombreMateria) => {
+    const currentRequired = configData.requiredCourses || [];
+    const existe = currentRequired.includes(nombreMateria);
+
+    let updatedRequired;
+    if (existe) {
+      updatedRequired = currentRequired.filter(m => m !== nombreMateria);
+    } else {
+      updatedRequired = [...currentRequired, nombreMateria];
+    }
+
+    setConfigData({
+      ...configData,
+      requiredCourses: updatedRequired
     });
   };
 
@@ -50,13 +83,11 @@ export default function ScheduleConfig() {
       numberOfCourses: Number(configData.numberOfCourses),
       maximumCredits: Number(configData.maximumCredits),
       maximumDifficultCourses: Number(configData.maximumDifficultCourses),
-      requiredCourses: configData.requiredCourses 
-        ? configData.requiredCourses.split(',').map(item => item.trim()).filter(Boolean)
-        : []
+      requiredCourses: configData.requiredCourses || []
     };
 
     try {
-      // Petición POST al backend (exactamente igual que en Postman)
+      // Petición POST al backend
       const response = await fetch(`${API_BASE_URL}/api/course/schedule/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -147,11 +178,23 @@ export default function ScheduleConfig() {
         </div>
 
         <div className="schedule-config-field">
-          <label className="schedule-config-label">Materias Obligatorias (separadas por coma):</label>
+          <label className="schedule-config-label">Materias Obligatorias (seleccionalas):</label>
+          {materiasDisponibles.map(materia => (
+            <label key={materia.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>
+              <input
+                type="checkbox"
+                checked={configData.requiredCourses.includes(materia.name)}
+                onChange={() => handleCheckboxChange(materia.name)}
+              />
+              {materia.name}
+            </label>
+          ))}
+          {/**esto se borra */}
           <input 
             type="text" 
             name="requiredCourses" 
-            value={configData.requiredCourses} 
+            readOnly
+            value={configData.requiredCourses ? configData.requiredCourses.join(', ') : ''} 
             onChange={handleChange} 
             placeholder="Ej: Programación, Bases de datos" 
             className="schedule-config-input" 
